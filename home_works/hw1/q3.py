@@ -1,8 +1,18 @@
-import re
-import time
-from traceback import print_tb
+"""
+ Author: Shlomo Glick
+ Since : 2022-10
+"""
 
 def print_sorted(struct):
+    """
+    The function receives a data structure containing various types and additional structures
+    The function should print the structures sorted at all depth levels
+
+    >>> print_sorted(struct=get_struct1())
+    [(['222', {'a': "{'4', '5', '6'}", 'b': ['Aaa', 'ggg', 't'], 'c': '3'}], 'ff'), '111', 'bbba', {'aa': '2', 'b': '0', 'c': '1', 'xx4': [('2', '5', 's', 'z', {'55': '10', '66': '3', '77': '9'}), '1', '2', '55']}]
+    >>> print_sorted(struct=get_struct2())
+    ['111', [('1', '3', '4'), 'd', {}], 'ta', {'aa': '2', 'b': '0', 'c': '1', 'xx4': [('2', '5', 's', 'z', {'55': '10', '66': '3', '77': '9'}), '1', '2', '55']}, {0: '2'}, {}]
+    """
     print(sorted_struct(struct=struct))
 
 def sorted_struct(struct):
@@ -31,9 +41,8 @@ def sort_tuple(struct):
     return tuple(sort_list(struct))
 
 
-
-
-struct=[
+def get_struct1():
+    return [
     ('ff', 
         [
             '222',
@@ -68,87 +77,40 @@ struct=[
             ]
         }
     ]
-print_sorted(struct=struct)
-struct=[
-    "bbba",
-    "111",
-    {0: 2},
-    {
-        "aa": 2,
-        "c": 1,
-        "b": 0,
-        "xx4": [
-                1,
-                2,
-                "55",
-                (
-                    's',
-                    5,
-                    {
-                        "77": 9,
-                        "55":10,
-                        "66": 3
-                    }, 
-                    '2',
-                    "z"
-                )
-            ]
-        }
-    ]
-print_sorted(struct=struct)
 
-# print_sorted(struct=struct)
-# z65 = ['1', '2', '55']
-# tt65 =('2', '5', 's', 'z', "{'55': '10', '66': '3', '77': '9'}")
-# z65.append(tt65)
-# print(z65)
-# z65 =[]
-# tt1 = 'bbba'
-# tt2 = 111
-# tt3 = 1
-# tt4 = 2
-# tt5 = 55
-# tt6 = ('2', '5', 's', 'z', "{'55': '10', '66': '3', '77': '9'}")
-# z65.append(tt1)
-# z65.append(tt2)
-# z65.append(tt3)
-# z65.append(tt4)
-# z65.append(tt5)
-# z65.append(tt6)
-# print(z65)
-# s = 'a'
-# if hasattr(s, '__iter__'):
-#     print('sy')
-# else:
-#     print('sn')
-# print_sorted(struct={"zz": 4 ,"aa": 2, "c": 1})
+def get_struct2():
+    return[
+        {},
+        ["d",(1,4,3),{}],
+        "ta",
+        "111",
+        {0: 2},
+        {
+            "aa": 2,
+            "c": 1,
+            "b": 0,
+            "xx4": [
+                    1,
+                    2,
+                    "55",
+                    (
+                        's',
+                        5,
+                        {
+                            "77": 9,
+                            "55":10,
+                            "66": 3
+                        }, 
+                        '2',
+                        "z"
+                    )
+                ]
+            }
+        ]
 
-# print_sorted(struct=["bbba", "111"])  #, {"aa": 2, "c": 1}])
+def main():
+    import doctest
+    print(doctest.testmod())
 
-
-# def foo(str2):
-#     if len(str(str2)) < 2:
-#         return str2 
-#     time.sleep(0.2)
-#     try:
-#         str2.sort()
-#         print(f'str2 = {str2}, try')
-#         return str(str2)
-#     except:
-#         print(f'str2 = {str2}, exp')
-#         ans = ''
-#         for d in str2:
-#             x = foo(d)
-#             ans +=x
-#         return ans
-
-
-
-
-
-
-
-
-
-# xx = (1,4,6,3,7)
-# print(sorted(xx))
+if __name__ == "__main__":
+    main()
