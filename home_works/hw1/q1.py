@@ -66,8 +66,6 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-
 ############################ function for doctest
 
 def sum4(x: int, y:int ,z, w:float, l: list):
