@@ -1,0 +1,10 @@
+abc-@mail.com  dddd@	abc-d@mail.com  74@
+ffdsdfa asffdsfm salfs'[] ; 43 l sfdafdfsd
+dasf sfdsfafds 6432523_
+abc..def@mail.com	abc.def@mail.com
+.abc@mail.com	abc@mail.com
+abc#def@mail.com	abc_def@mail.com
+abc.def@mail.c	abc.def@mail.cc
+abc.def@mail#archive.com	abc.def@mail-archive.com
+abc.def@mail	abc.def@mail.org
+abc.def@mail..com	abc.def@mail.com
