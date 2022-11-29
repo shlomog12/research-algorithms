@@ -77,6 +77,7 @@ def proportional_division(items, preferences):
             if preferences[i][j] >= threshold:
                 graph[i][j] = 1
     ans = GFG(graph).getMatch()
+    # print(ans)
     if ans:
         return list(map(lambda x: items[x],ans))
     else:
@@ -91,7 +92,11 @@ preferences2 = [[0,1,2,3],
                [0,1,2,3],
                [0,1,2,3],
                [0,1,2,3]]
+
+preferences3 = [[0]]              
 t1 = proportional_division(['A','B','C','D'], preferences)
 print(t1)
 t2 = proportional_division(['A','B','C','D'], preferences2)
 print(t2)
+t3 = proportional_division(['A'], preferences3)
+print(t3)
