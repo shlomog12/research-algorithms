@@ -1,39 +1,39 @@
 from abc import ABC
 from typing import Any, List, Callable
 
-
 class OutputType(ABC):
 
     @classmethod
     def extract_output_from_list_of_nodes(cls, nodes: List[Any]):
         """
-        Construct and return a Bins structure. Used at the initialization phase of an algorithm.
+        return Output by type and by list of nodes
         """
         raise NotImplementedError("Choose a specific output type")
 
-
-
 class Count(OutputType):
-    """ Output the list of sums of all bins (but not the bins' contents).  """
+    """ 
+    Returns the number of vertices in a connected component
+    """
 
     @classmethod
-    def extract_output_from_list_of_nodes(cls, nodes: List[Any]) -> Any:
+    def extract_output_from_list_of_nodes(cls, nodes: List[Any]) -> int:
         return len(nodes)
 
-
 class SortedNodes(OutputType):
-    """ Output the list of sums of all bins (but not the bins' contents).  """
+    """ 
+    Returns the sorted vertices
+    """
 
     @classmethod
-    def extract_output_from_list_of_nodes(cls, nodes: List[Any]) -> Any:
+    def extract_output_from_list_of_nodes(cls, nodes: List[Any]) -> List[Any]:
         return sorted(nodes)
 
 
 class ListOfNodes(OutputType):
-    """ Output the list of sums of all bins (but not the bins' contents).  """
+    """ Returns the list of vertices in the order they were passed in the algorithm """
 
     @classmethod
-    def extract_output_from_list_of_nodes(cls, nodes: List[Any]) -> Any:
+    def extract_output_from_list_of_nodes(cls, nodes: List[Any]) -> List[Any]:
         return nodes
 
 

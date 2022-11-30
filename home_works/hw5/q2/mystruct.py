@@ -1,20 +1,17 @@
 
 from abc import ABC
 import queue
-
+from typing import Any, List
 class Struct(ABC):
 
-    def __init__(self):
-        raise NotImplementedError("Choose a specific output type")
+    def add(self, v:Any):
+        raise NotImplementedError("Choose a struct")
 
-    def add(self, v):
-        raise NotImplementedError("Choose a specific output type")
+    def get(self) -> Any:
+        raise NotImplementedError("Choose a struct")
 
-    def get(self):
-        raise NotImplementedError("Choose a specific output type")
-
-    def is_empty(self):
-        raise NotImplementedError("Choose a specific output type")
+    def is_empty(self)-> bool:
+        raise NotImplementedError("Choose a struct")
 
 class Queue(Struct):
 
@@ -22,13 +19,13 @@ class Queue(Struct):
         self.q = queue.Queue()
     
 
-    def add(self, v):
+    def add(self, v:Any):
         self.q.put(v)
 
-    def get(self):
+    def get(self) -> Any:
         return self.q.get()
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
         return self.q.empty()
 
 class Stack(Struct):
@@ -36,11 +33,11 @@ class Stack(Struct):
     def __init__(self):
         self.stack = []
     
-    def add(self, v):
+    def add(self, v:Any):
         self.stack.append(v)
 
-    def get(self):
+    def get(self) -> Any:
         return self.stack.pop()
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
         return len(self.stack) == 0
