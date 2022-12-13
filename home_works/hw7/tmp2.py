@@ -1,10 +1,7 @@
-
-"""
- Author: Shlomo Glick
- Since : 2022-11
-"""
-
+import networkx as nx
+import networkx.algorithms.approximation as nx_app
 import heapq
+
 
 history = {}
 next_iter = {}
@@ -31,7 +28,7 @@ def save_history_of_generator(func):
     return wrapper
 
 @save_history_of_generator
-def subset_generator_sorted(myList):
+def subset_generator_sorted(myList,sum_func=sum):
     """
     This creates all the subsets of the list and returns them sorted from lowest to highest total
     """
@@ -47,7 +44,7 @@ def subset_generator_sorted(myList):
             first_sub = [current] + next(it)
         except StopIteration:
             continue
-        sumFirst = sum(first_sub)
+        sumFirst = sum_func(first_sub)
         heapq.heappush(queue, (sumFirst, i, first_sub, it))
     
     while len(queue) > 0:
@@ -58,10 +55,10 @@ def subset_generator_sorted(myList):
             next_sub = [current]+next(current_iter)
         except StopIteration:
             continue
-        sumNext = sum(next_sub)
+        sumNext = sum_func(next_sub)
         heapq.heappush(queue, (sumNext, i, next_sub, current_iter))
  
-def bounded_subsets(myList, maximum):
+def bounded_subsets(myList, maximum, sum_func=sum):
     """
     This creates all subsets of the list whose sum < max returns them sorted from lowest to highest sum
     >>> print_by_iterator(bounded_subsets([1,10,40,50,70,75],3))
@@ -73,45 +70,62 @@ def bounded_subsets(myList, maximum):
     >>> print_by_iterator(bounded_subsets(range(50,150),103))
     [],[50],[51],[52],[53],[54],[55],[56],[57],[58],[59],[60],[61],[62],[63],[64],[65],[66],[67],[68],[69],[70],[71],[72],[73],[74],[75],[76],[77],[78],[79],[80],[81],[82],[83],[84],[85],[86],[87],[88],[89],[90],[91],[92],[93],[94],[95],[96],[97],[98],[99],[100],[50, 51],[101],[50, 52],[102],[50, 53],[51, 52],[103],
     """
-    for x in subset_generator_sorted(myList):
-        if sum(x) > maximum:
+    for x in subset_generator_sorted(myList,sum_func):
+        if sum_func(x) > maximum:
             return
         yield x
 
-def print_by_iterator(it):
+def is_cover(G:nx.Graph, candidates:set):
     """
-    print for tests
+    :param G: graph
+    :param candidates: set of nodes
+    Returns true if the candidates are graph covering. otherwise returns false
     """
-    for x in it:
-        print(x, end =",")
+    for u, v in G.edges():
+        if u not in candidates and v not in candidates:
+            return False
+    return True
 
-def main():
-    import doctest
-    print(doctest.testmod())
+def sum_weights_of_set(G,nodes):
+    """
+    
+    """
+    sum = 0
+    nodes_data = dict(G.nodes(data='weight', default=1))
+    for v in nodes:
+        sum += nodes_data[v]
+    return sum
+
+def approximation_vertex_coverage(G, cover_nx):
+    """
+    Calculating the approximation ratio of vertex coverage using complete search
+    """
+    sum_w = lambda s: sum_weights_of_set(G,s)
+    for s in bounded_subsets(G.nodes, sum_w(cover_nx), sum_func=sum_w):
+        if is_cover(G,set(s)):
+            ans = float(sum_w(s))/float(sum_w(cover_nx))
+            if ans < 1:
+                print(ans)
+                print(s)
+                print(G.edges())
+            return ans
+            # return float(sum_w(s))/float(sum_w(cover_nx))
+    print(G.edges())
+    print(f'is cover = {is_cover(cover_nx)}')
+    return False
+
+G = nx.gnp_random_graph(10,0.3)
+
+cover_nx = nx_app.min_weighted_vertex_cover(G,weight="weight")
+# sum_cover_nx = sum_weights_of_set(G, cover_nx)
+
+print(cover_nx)
+print('#######################################################################')
+x = approximation_vertex_coverage(G, cover_nx)
+print(x)
+
+# nodes = list(G.nodes)
 
 
 
-
-
-
-    # with open('./tt1_b.txt', 'w') as f:
-    #     for s in bounded_subsets(list(range(90,100)) + list(range(920,1000)), 1000):
-    #         print(s, file=f)  
-
-    # with open('./tt2_b.txt', 'w') as f:
-    #     print("1: bounded_subsets([1,2,3], 4):", file=f)
-    #     for s in bounded_subsets([1,2,3], 4):
-    #         print(s, file=f) 
-    #     print("**************************************************************************",file=f)
-    #     print("2: bounded_subsets(range(50,150), 103):", file=f)
-    #     for s in bounded_subsets(range(50,150), 103):
-    #         print(s, file=f)    
-    #     print("**************************************************************************",file=f)
-    #     print("3: zip(range(5), bounded_subsets(range(100), 1000000000000))", file=f)
-    #     for s in zip(range(5), bounded_subsets(range(100), 1000000000000)):
-	#         print(s, file=f)
-   
-
-
-if __name__ == "__main__":
-    main()
+# cover = nx_app.min_weighted_vertex_cover(G,weight="weight")

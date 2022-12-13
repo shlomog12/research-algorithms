@@ -30,11 +30,12 @@ print(solve_by_cp(A,B))
 print(np.linalg.solve(A, B))
 
 def drow_graph_by_array(arr, title):
+    path = './hw7/Q1/'
     plt.title(title)
     plt.xlabel('iteration')
     plt.ylabel('time')
     plt.plot(range(len(arr)), arr, color="blue")
-    plt.savefig(f'{title}.png')
+    plt.savefig(f'{path}{title}.png')
     plt.close()
 
 
@@ -57,5 +58,5 @@ def drow_graph_times_cp_vs_np(max_n=1000):
     # print('cp:\n\n\n\n\n\n\n')
     # print(times_cp)
 
-# drow_graph_times_cp_vs_np()
+drow_graph_times_cp_vs_np(30)
 
