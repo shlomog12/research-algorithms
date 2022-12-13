@@ -48,10 +48,10 @@ def subset_generator_sorted(myList):
         except StopIteration:
             continue
         sumFirst = sum(first_sub)
-        heapq.heappush(queue, (sumFirst, i, first_sub, it, sub_list))
+        heapq.heappush(queue, (sumFirst, i, first_sub, it))
     
     while len(queue) > 0:
-        (sumFirst, i, first_sub ,current_iter, sub_list) =  heapq.heappop(queue)
+        (sumFirst, i, first_sub ,current_iter) =  heapq.heappop(queue)
         yield first_sub
         try:
             current = myList[i]
@@ -59,7 +59,7 @@ def subset_generator_sorted(myList):
         except StopIteration:
             continue
         sumNext = sum(next_sub)
-        heapq.heappush(queue, (sumNext, i, next_sub, current_iter, sub_list))
+        heapq.heappush(queue, (sumNext, i, next_sub, current_iter))
  
 def bounded_subsets(myList, maximum):
     """
@@ -89,6 +89,29 @@ def print_by_iterator(it):
 def main():
     import doctest
     print(doctest.testmod())
+
+
+
+
+
+
+    # with open('./tt1_b.txt', 'w') as f:
+    #     for s in bounded_subsets(list(range(90,100)) + list(range(920,1000)), 1000):
+    #         print(s, file=f)  
+
+    # with open('./tt2_b.txt', 'w') as f:
+    #     print("1: bounded_subsets([1,2,3], 4):", file=f)
+    #     for s in bounded_subsets([1,2,3], 4):
+    #         print(s, file=f) 
+    #     print("**************************************************************************",file=f)
+    #     print("2: bounded_subsets(range(50,150), 103):", file=f)
+    #     for s in bounded_subsets(range(50,150), 103):
+    #         print(s, file=f)    
+    #     print("**************************************************************************",file=f)
+    #     print("3: zip(range(5), bounded_subsets(range(100), 1000000000000))", file=f)
+    #     for s in zip(range(5), bounded_subsets(range(100), 1000000000000)):
+	#         print(s, file=f)
+   
 
 
 if __name__ == "__main__":
