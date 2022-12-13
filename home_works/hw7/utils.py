@@ -1,7 +1,8 @@
-import networkx as nx
-import networkx.algorithms.approximation as nx_app
-import heapq
 
+
+import heapq
+from typing import Any, List, Callable
+import matplotlib.pyplot as plt
 
 history = {}
 next_iter = {}
@@ -28,7 +29,7 @@ def save_history_of_generator(func):
     return wrapper
 
 @save_history_of_generator
-def subset_generator_sorted(myList,sum_func=sum):
+def subset_generator_sorted(myList:List,sum_func:Callable=sum):
     """
     This creates all the subsets of the list and returns them sorted from lowest to highest total
     """
@@ -58,7 +59,7 @@ def subset_generator_sorted(myList,sum_func=sum):
         sumNext = sum_func(next_sub)
         heapq.heappush(queue, (sumNext, i, next_sub, current_iter))
  
-def bounded_subsets(myList, maximum, sum_func=sum):
+def bounded_subsets(myList:List, maximum:float, sum_func:Callable=sum):
     """
     This creates all subsets of the list whose sum < max returns them sorted from lowest to highest sum
     >>> print_by_iterator(bounded_subsets([1,10,40,50,70,75],3))
@@ -75,57 +76,11 @@ def bounded_subsets(myList, maximum, sum_func=sum):
             return
         yield x
 
-def is_cover(G:nx.Graph, candidates:set):
-    """
-    :param G: graph
-    :param candidates: set of nodes
-    Returns true if the candidates are graph covering. otherwise returns false
-    """
-    for u, v in G.edges():
-        if u not in candidates and v not in candidates:
-            return False
-    return True
 
-def sum_weights_of_set(G,nodes):
-    """
-    
-    """
-    sum = 0
-    nodes_data = dict(G.nodes(data='weight', default=1))
-    for v in nodes:
-        sum += nodes_data[v]
-    return sum
-
-def approximation_vertex_coverage(G, cover_nx):
-    """
-    Calculating the approximation ratio of vertex coverage using complete search
-    """
-    sum_w = lambda s: sum_weights_of_set(G,s)
-    for s in bounded_subsets(G.nodes, sum_w(cover_nx), sum_func=sum_w):
-        if is_cover(G,set(s)):
-            ans = float(sum_w(s))/float(sum_w(cover_nx))
-            if ans < 1:
-                print(ans)
-                print(s)
-                print(G.edges())
-            return ans
-            # return float(sum_w(s))/float(sum_w(cover_nx))
-    print(G.edges())
-    print(f'is cover = {is_cover(cover_nx)}')
-    return False
-
-G = nx.gnp_random_graph(10,0.3)
-
-cover_nx = nx_app.min_weighted_vertex_cover(G,weight="weight")
-# sum_cover_nx = sum_weights_of_set(G, cover_nx)
-
-print(cover_nx)
-print('#######################################################################')
-x = approximation_vertex_coverage(G, cover_nx)
-print(x)
-
-# nodes = list(G.nodes)
-
-
-
-# cover = nx_app.min_weighted_vertex_cover(G,weight="weight")
+def draw_graph_by_array(arr, title, label_X, label_Y , path="./hw7/res/"):
+    plt.title(title)
+    plt.xlabel(label_X)
+    plt.ylabel(label_Y)
+    plt.plot(range(len(arr)), arr, color="red")
+    plt.savefig(f'{path}{title}.png')
+    plt.close()

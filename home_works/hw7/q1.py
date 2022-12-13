@@ -4,6 +4,7 @@ from cvxpy import log
 import numpy as np
 import matplotlib.pyplot as plt
 import timeit
+from utils import draw_graph_by_array
 
 
 def generate_systems_of_linear_equations(n=None):
@@ -24,22 +25,13 @@ def solve_by_cp(A,B):
     prob.solve()
     return X.value
 
-
 A,B = generate_systems_of_linear_equations(10)
 print(solve_by_cp(A,B))
 print(np.linalg.solve(A, B))
 
-def drow_graph_by_array(arr, title):
-    path = './hw7/Q1/'
-    plt.title(title)
-    plt.xlabel('iteration')
-    plt.ylabel('time')
-    plt.plot(range(len(arr)), arr, color="blue")
-    plt.savefig(f'{path}{title}.png')
-    plt.close()
 
 
-def drow_graph_times_cp_vs_np(max_n=1000):
+def draw_graph_times_cp_vs_np(max_n=1000):
     times_cp = []
     times_np = []
     for i in range(max_n):
@@ -49,14 +41,15 @@ def drow_graph_times_cp_vs_np(max_n=1000):
         times_cp.append(time_of_cp)
         times_np.append(time_of_np)
     
-    drow_graph_by_array(times_np,f"times of numpy--{max_n}")
-    drow_graph_by_array(times_cp,f"times of cvxpy--{max_n}")
 
-    # print('numpy:\n\n\n\n\n\n\n')
-    # print(times_np)
-    # print('\n\n\n\n\n\n\n\n')
-    # print('cp:\n\n\n\n\n\n\n')
-    # print(times_cp)
+    label_X='iteration'
+    label_Y='time'
+    title_np = f"times of numpy--{max_n}"
+    title_cp = f"times of cvxpy--{max_n}"
 
-drow_graph_times_cp_vs_np(30)
+    draw_graph_by_array(times_np, title_np, label_X=label_X, label_Y=label_Y)
+    draw_graph_by_array(times_cp, title_cp, label_X=label_X, label_Y=label_Y)
+
+
+draw_graph_times_cp_vs_np(30)
 
